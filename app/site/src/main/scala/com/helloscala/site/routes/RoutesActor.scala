@@ -9,7 +9,7 @@ import spray.routing._
 import yangbajing.common.MessageException
 
 object RoutesActor {
-  def props(conf: Conf, systemContext: SystemContext) = Props(classOf[RoutesActor], conf, systemContext)
+  def props(conf: Conf, systemContext: SystemContext) = Props(new RoutesActor(conf, systemContext))
 }
 
 class RoutesActor(val conf: Conf, val systemContext: SystemContext) extends HttpServiceActor with Routes with StrictLogging {

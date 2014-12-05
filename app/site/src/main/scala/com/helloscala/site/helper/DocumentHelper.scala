@@ -29,7 +29,7 @@ class DocumentHelper(conf: Conf, httlEngine: Engine) {
     val parameters = new util.HashMap[String, AnyRef]()
 
     parameters.put("document", documentBean(doc))
-    val source = Source.fromFile(conf.server.localWebapp + "/_tpl/document.html", "UTF-8").getLines().mkString("\n")
+    val source = Source.fromFile(conf.server.localWebapp + "/templates/document.html", "UTF-8").getLines().mkString("\n")
     val template = httlEngine.parseTemplate(source)
     template.render(parameters, out)
   }

@@ -103,22 +103,14 @@ angular.module('console', [
       $stateProvider
         .state('index', {
           url: '/index',
-          views: {
-            'main': {
-              templateUrl: '_index.html'
-            }
-          }
+          templateUrl: '_index.html'
         })
         .state('login', {
           url: '/login',
-          views: {
-            //'main': {
-            //  templateUrl: '_none.html'
-            //},
-            'main': {
-              templateUrl: '_login.html',
-              controller: 'LoginCtrl'
-            }
+          templateUrl: '_login.html',
+          controller: 'LoginCtrl',
+          data: {
+            label: '登陆'
           }
         });
 

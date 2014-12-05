@@ -31,45 +31,35 @@ class ServerActor(val conf: Conf) extends Actor with StrictLogging {
   implicit val timeout = Timeout(conf.server.timeout, TimeUnit.MILLISECONDS)
 
   val systemContext = new SystemContext(conf, context.system)
-  val routeActor = context.actorOf(RoutesActor.props(conf, systemContext), Tools.RoutesActorName)
   val httpActor = IO(Http)(context.system)
 
   def receive: Receive = {
     case Start =>
-      httpActor ? Http.Bind(routeActor, conf.server.interface, conf.server.port) onComplete {
+      val f = httpActor ? Http.Bind(context.actorOf(RoutesActor.props(conf, systemContext), Tools.RoutesActorName),
+        conf.server.interface, conf.server.port)
+
+      f onComplete {
         case Success(resp) =>
           resp match {
             case b: Http.Bound =>
-              println("成功绑定到：" + b.localAddress)
+              logger.info("成功绑定到：" + b.localAddress)
+
             case Tcp.CommandFailed(b: Http.Bind) ⇒
-              println("绑定到：" + b.endpoint + "失败")
+              logger.error("绑定到：" + b.endpoint + "失败")
               self ! ServerShutdown
           }
 
         case Failure(e) =>
           e.printStackTrace()
+          logger.error("绑定失败：" + e.getLocalizedMessage)
           self ! ServerShutdown
       }
 
     case ServerShutdown =>
       logger.info("ServerShutdown，开始关闭……")
-      routeActor ! PoisonPill
-      context become shuttingDown
-  }
-
-  /**
-   * 关闭流程：httpActor -> systemContext-> context.system
-   * TODO 设计关闭流程
-   */
-  def shuttingDown: Receive = {
-    case Terminated(ref) if ref.path == routeActor.path =>
-      context.stop(self)
+      httpActor ! PoisonPill
+      TimeUnit.SECONDS.sleep(2)
       context.system.shutdown()
-
-    case Terminated(ref) =>
-      println("Terminated(ref): " + ref.path.toString)
-
-    case msg =>
-      sender() ! "service unavailable, shutting down"
   }
+
 }
