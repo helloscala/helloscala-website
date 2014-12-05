@@ -1,0 +1,25 @@
+body {
+  padding: 0;
+  margin: 0;
+  font: 14px/1.5 "微软雅黑", "OpenSansRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #333;
+  min-width: 1020px;
+  background: #fff;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+a:active {
+  color: #008000;
+}
+
+a:hover {
+  color: #0000ff;
+}

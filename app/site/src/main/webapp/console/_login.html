@@ -1,0 +1,20 @@
+<div class="panel panel-primary center-block" style="width:400px;margin-top:70px;">
+  <form class="panel-body" name="login_form" role="form" ng-submit="onLogin()" novalidate>
+    <div class="form-group form-group-lg"
+         ng-class="{'has-success': !login_form.account.$pristine && login_form.account.$valid, 'has-error': !login_form.account.$pristine && login_form.account.$invalid}">
+      <input type="text" class="form-control" name="account" ng-model="auth.account" placeholder="账号" required autofocus>
+      <span class="help-block" ng-show="!login_form.account.$pristine && login_form.account.$invalid">请输入登录账号</span>
+    </div>
+    <div class="form-group form-group-lg"
+         ng-class="{'has-success': !login_form.password.$pristine && login_form.password.$valid, 'has-error': !login_form.password && login_form.password.$invalid}">
+      <input type="password" class="form-control" name="password" ng-model="auth.password" placeholder="密码" required>
+      <span class="help-block" ng-show="!login_form.password.$pristine && login_form.password.$invalid">请输入登录密码</span>
+    </div>
+    <div class="form-group form-group-lg"
+         ng-class="{'has-success': loginSuccess != '', 'has-error': loginError != ''}">
+      <button type="submit" class="btn btn-primary btn-lg btn-block" ng-disabled="login_form.$invalid">登录</button>
+      <span class="help-block" ng-hide="loginSuccess == ''">{{loginSuccess}}</span>
+      <span class="help-block" ng-hide="loginError == ''">{{loginError}}</span>
+    </div>
+  </form>
+</div>
