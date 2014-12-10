@@ -64,7 +64,7 @@ trait ResourceRoutes {
                     case Some(id) =>
                       val f = new File(dir, id + ".html")
                       if (!f.exists) {
-                        systemContext.documentService.helper.makeHtml(systemContext.documentService.findOneById(id).get)
+                        systemContext.documentService.findOneById(id).foreach(systemContext.documentService.helper.makeDetail)
                       }
                       f
 

@@ -42,7 +42,7 @@ class DocumentService(conf: Conf, entities: Entities, httlEngine: Engine) {
     val pager = documentModel.pager(limit, at, sort)
     val out = new ByteArrayOutputStream()
     try {
-      helper.makeDocumentList(pager, out)
+      helper.makeList(pager, out)
       val entity = HttpEntity(ContentType(MediaTypes.`text/html`, HttpCharsets.`UTF-8`), out.toByteArray)
       HttpResponse(StatusCodes.OK, entity)
     } finally {

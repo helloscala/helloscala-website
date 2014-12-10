@@ -21,14 +21,14 @@ class DocumentHelperTest extends FunSpec with MyFunSpec {
   describe("DocumentHelper") {
     it("makeDocumentDetail") {
       documentModel.findAll().foreach { doc =>
-        helper.makeHtml(doc)
+        helper.makeDetail(doc)
       }
     }
 
     it("makeDocumentList") {
       val pager = documentModel.pager(15, None, SortAts.Desc)
       pager.items.nonEmpty shouldBe true
-      helper.makeDocumentList(pager, System.out)
+      helper.makeList(pager, System.out)
     }
   }
 }

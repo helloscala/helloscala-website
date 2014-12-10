@@ -19,7 +19,7 @@ import scala.io.Source
  */
 class DocumentHelper(conf: Conf, entities: Entities, httlEngine: Engine) {
 
-  def makeDocumentList(pager: DocumentPagerResponse, out: OutputStream): Unit = {
+  def makeList(pager: DocumentPagerResponse, out: OutputStream): Unit = {
     val parameters = new util.HashMap[String, AnyRef]()
 
     parameters.put("pager", DocumentPagerBean(pager.items.asJava, pager.count, pager.params))
@@ -29,19 +29,19 @@ class DocumentHelper(conf: Conf, entities: Entities, httlEngine: Engine) {
     template.render(parameters, out)
   }
 
-  def makeHtml(document: MDocument): Unit = {
+  def makeDetail(document: MDocument): Unit = {
     val dir = conf.server.localWebapp + "/document/" + document.created_at.getYear + "/" +
       "%02d".format(document.created_at.getMonthOfYear)
     Y.mkDir(dir)
     val out = new FileOutputStream(new File(dir, document.id.get.value + ".html"))
     try {
-      makeHtml(document, out)
+      makeDetail(document, out)
     } finally {
       out.close()
     }
   }
 
-  def makeHtml(doc: MDocument, out: OutputStream): Unit = {
+  def makeDetail(doc: MDocument, out: OutputStream): Unit = {
     val parameters = new util.HashMap[String, AnyRef]()
 
     parameters.put("document", documentBean(doc))
