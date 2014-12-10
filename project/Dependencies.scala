@@ -31,7 +31,7 @@ object Dependencies {
     "com.github.scala-incubator.io" %% "scala-io-core" % scalaIOVersion,
     "com.github.scala-incubator.io" %% "scala-io-file" % scalaIOVersion)
 
-  val akkaVersion = "2.3.6"
+  val akkaVersion = "2.3.7"
 
   val _akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
   val _akkaRemote = "com.typesafe.akka" %% "akka-remote" % akkaVersion

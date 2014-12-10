@@ -11,5 +11,5 @@ trait MyFunSpec extends BeforeAndAfterAll with Matchers {
   val conf = Tools.getConfig
   val entities = new Entities(conf.sql_db, MyJdbcDriver.is)
 
-
+  println(conf)
 }

@@ -6,7 +6,7 @@ import akka.actor._
 import akka.io.{IO, Tcp}
 import akka.pattern.ask
 import akka.util.Timeout
-import com.helloscala.platform.util.{Conf, Tools}
+import com.helloscala.platform.util.{Y, Conf, Tools}
 import com.helloscala.site.routes.RoutesActor
 import com.helloscala.site.services.SystemContext
 import com.typesafe.scalalogging.StrictLogging
@@ -18,13 +18,7 @@ case object Start
 
 case object ServerShutdown
 
-object ServerActor {
-  def start(conf: Conf): Unit = {
-    ActorSystem(conf.meta.id).actorOf(Props(classOf[ServerActor], conf), name = Tools.ServerActorName) ! Start
-  }
-}
-
-class ServerActor(val conf: Conf) extends Actor with StrictLogging {
+class ServerActor(conf: Conf) extends Actor with StrictLogging {
 
   import context.dispatcher
 
@@ -32,6 +26,12 @@ class ServerActor(val conf: Conf) extends Actor with StrictLogging {
 
   val systemContext = new SystemContext(conf, context.system)
   val httpActor = IO(Http)(context.system)
+
+
+  @throws[Exception](classOf[Exception])
+  override def preStart() = {
+    logger.debug("conf:\n" + Y.json4sToStringPretty(conf)(Y.json4sDefaultFormats))
+  }
 
   def receive: Receive = {
     case Start =>

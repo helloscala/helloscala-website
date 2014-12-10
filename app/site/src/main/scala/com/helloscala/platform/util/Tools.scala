@@ -8,7 +8,7 @@ object Tools extends ConfHelper {
   final val RoutesActorName = "routes"
   final val ServerActorName = "server"
 
-  final val indexHtml = Set("", "index", "index.htm", "index.html")
+  final val indexHtml = Set("", "index", "index.html")
 
   def getConfig: Conf = getConfig("site-" + RunMode)
 

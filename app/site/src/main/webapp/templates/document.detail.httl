@@ -1,0 +1,105 @@
+<!-- #set(DocumentBean document) -->
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="helloscala.com 更好的Scala中文社区">
+  <meta name="keywords" content="index, scala, spray, akka">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="apple-mobile-web-app-title" content="helloscala">
+
+  <title>${document.title} - helloscala.com</title>
+
+  <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!--[if lt IE 9]>
+  <script src="/assets/lib/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="/assets/lib/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
+  <link rel="apple-touch-icon-precomposed" href="/assets/img/app-icon72x72@2x.png">
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="alert alert-danger text-center">
+  你正在使用<strong>过时</strong>的浏览器。请<a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！
+</p>
+<![endif]-->
+${include("/templates/navbar.httl")}
+<div class="container">
+  <div class="row">
+    <div class="col-xs-10">
+      <article>
+        <div class="doc-header clearfix">
+          <h3 class="text-primary">${document.title}</h3>
+
+          <p class="text-muted">
+            <strong>作者：</strong>${document.author_nick}<br>
+            <strong>标签：</strong>${document.attrs.get("tags")}
+          </p>
+          <!-- JiaThis Button BEGIN -->
+          <div class="jiathis_style_24x24">
+            <a class="jiathis_button_qzone"></a>
+            <a class="jiathis_button_tsina"></a>
+            <a class="jiathis_button_tqq"></a>
+            <a class="jiathis_button_weixin"></a>
+            <a class="jiathis_button_renren"></a>
+            <a href="http://www.jiathis.com/share?uid=1889682" class="jiathis jiathis_txt jtico jtico_jiathis"
+               target="_blank"></a>
+            <a class="jiathis_counter_style"></a>
+          </div>
+          <!-- JiaThis Button END -->
+        </div>
+        <div class="doc-content">
+          $!{document.content}
+        </div>
+      </article>
+      <hr>
+      <!-- UY BEGIN -->
+      <div id="uyan_frame"></div>
+      <!-- UY END -->
+    </div>
+    <div class="col-xs-2">
+      <!-- UJian Button BEGIN -->
+      <div class="ujian-hook"></div>
+      <a href="http://www.ujian.cc" style="border:0;">
+        <img src="http://img.ujian.cc/pixel.png" alt="友荐云推荐" style="border:0;padding:0;margin:0;"/>
+      </a>
+      <!-- UJian Button END -->
+    </div>
+  </div>
+
+</div>
+
+${include("/templates/footer.httl")}
+
+<script type="text/javascript" src="/assets/lib/jquery/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/assets/lib/jquery/jquery.cookie.js"></script>
+<script type="text/javascript" src="/assets/js/style.js"></script>
+<script type="text/javascript">
+  var uyan_config = {'du': 'www.helloscala.com'};
+</script>
+<script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=1889682"></script>
+<script type="text/javascript">
+  var jiathis_config = {data_track_clickback: 'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1889682" charset="utf-8"></script>
+<script type="text/javascript">
+  var ujian_config = {
+    num: 6,
+    fillet: 0,
+    lkrc: 0,
+    picSize: 120,
+    picHeight: 72,
+    textHeight: 15
+  };
+</script>
+<script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?uid=1889682"></script>
+</body>
+</html>

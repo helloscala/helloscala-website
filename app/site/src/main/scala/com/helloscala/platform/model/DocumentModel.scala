@@ -1,10 +1,8 @@
 package com.helloscala.platform.model
 
-import java.sql.SQLException
-
 import com.helloscala.platform.common.{SortAt, SortAts, SuperId}
 import com.helloscala.platform.model.entity.{Entities, MDocument, MDocumentComment}
-import com.helloscala.platform.util.{Params, PageDataResponse, StatusMsgs, Tools}
+import com.helloscala.platform.util.{PageDataResponse, Params, StatusMsgs, Tools}
 import org.joda.time.DateTime
 
 /**
@@ -23,6 +21,10 @@ class DocumentModel private(val entities: Entities) extends BaseModel {
 
   import entities._
   import entities.driver.simple._
+
+  def findAll() = db withSession { implicit ss =>
+    tDocument.sortBy(_.created_at.desc).list
+  }
 
   def findIdBySlug(slug: String): Option[SuperId] = db withSession { implicit ss =>
     tDocument.filter(_.slug === slug).map(_.id).firstOption
@@ -79,7 +81,7 @@ class DocumentModel private(val entities: Entities) extends BaseModel {
         ).flatten.reduceOption(_ && _).getOrElse(LiteralColumn(true))
       }
 
-      val items = q.drop(limit).list
+      val items = q.take(limit).list
       val (minAt, maxAt) = minMaxCreatedAt(tDocument.baseTableRow)
 
       val newerTime =
@@ -110,10 +112,14 @@ class DocumentModel private(val entities: Entities) extends BaseModel {
     cs.toList
   }
 
-  def update(document: Entity): Boolean = db withTransaction { implicit ss =>
-    val result = tDocument.filter(_.id === document.id).update(document)
-    if (result != 1) throw new SQLException("更新文章失败")
-    else true
+  def update(document: Entity): Entity = {
+    Tools.require(document.id.isDefined, StatusMsgs.sqlError("文章ID无效。"))
+
+    db withTransaction { implicit ss =>
+      val result = tDocument.filter(_.id === document.id).update(document)
+      Tools.require(result == 1, StatusMsgs.sqlError(s"更新文章：${document.id.get} 失败"))
+      document
+    }
   }
 
   def findOne(idOrSlug: String): Option[Entity] = {

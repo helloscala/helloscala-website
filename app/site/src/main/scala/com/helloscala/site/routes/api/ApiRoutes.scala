@@ -19,7 +19,7 @@ trait ApiRoutes
     apiDataRotue ~
       apiConsoleRoute ~
       apiUploadRoute ~
-      apiSessionRoute ~
-      apiSystemRoute
+      //      apiSystemRoute ~
+      apiSessionRoute
   }
 }

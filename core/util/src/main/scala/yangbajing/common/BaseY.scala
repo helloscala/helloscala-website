@@ -240,12 +240,7 @@ trait BaseY
   def mkDir(dir: String): Try[Path] = mkDir(Paths.get(dir))
 
   def mkDir(dir: Path): Try[Path] =
-    dir match {
-      case _ if Files.isDirectory(dir) => Success(dir)
-      case _ if Files.exists(dir) => Failure(new FileAlreadyExistsException(dir + " 已存在，但不是目录。"))
-      case _ => Try(Files.createDirectories(dir))
-    }
-
+    if (Files.isDirectory(dir)) Success(dir) else Try(Files.createDirectories(dir))
 
   /**
    * 保存文件到本地磁盘

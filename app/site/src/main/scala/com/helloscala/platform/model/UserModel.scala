@@ -40,6 +40,10 @@ class UserModel private(val entities: Entities) extends BaseModel {
     tUser.filter(_.id === id).firstOption
   }
 
+  def updatePassword(id: PK, up: MUserPassword): Boolean = db withTransaction { implicit ss =>
+    tUserPassword.filter(_.id === id).update(up) == 1
+  }
+
   def findOne(account: String, md5Pass: String): Option[MUser] = db withSession { implicit ss =>
     def filterAccount(t: TableUser) = {
       if (Y.emailValidate(account)) t.email === account

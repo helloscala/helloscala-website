@@ -3,6 +3,7 @@ package com.helloscala.site.beans
 case class DocumentBean(id: String,
                         title: String,
                         author: Long,
+                        author_nick: String,
                         content: String,
                         description: String,
                         slug: String,

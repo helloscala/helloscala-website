@@ -1,6 +1,7 @@
 package com.helloscala.platform.model.entity
 
 import com.helloscala.platform.common.SuperId
+import com.helloscala.platform.util.Y
 import org.joda.time.DateTime
 
 /**
@@ -28,9 +29,10 @@ case class MDocument(id: Option[SuperId],
                       */
                      attrs: Map[String, String] = Map(),
                      created_at: DateTime = DateTime.now()) extends BaseEntity[Option[SuperId]] {
-//  def getTitle() = title
-//
-//  def getContent() = content
+  //  def getTitle() = title
+  //
+  //  def getContent() = content
+  def getJDocUri = s"/document/${created_at.getYear}/${"%2d".format(created_at.getMonthOfYear)}/${id.get}.html"
 }
 
 case class MDocumentComment(id: Option[SuperId],

@@ -39,7 +39,6 @@ angular.module('console', [
        */
       login: function (params) {
         var auth = {account: params.account, md5_pass: md5.createHash(params.password)};
-        //var auth = {account: params.account, md5_pass: params.password};
         return $http.post(baseUrl + '/login', auth);
       },
       logout: function (token) {
@@ -57,8 +56,8 @@ angular.module('console', [
 
     $scope.onLogin = function () {
       authService.login($scope.auth)
-        .success(function (resp, status, headers) {
-          if (resp.error.errcode == 0) {
+        .success(function (resp) {
+          if (resp.status.code == 0) {
             accountService.setToken(resp.data.token);
             accountService.setAccount(resp.data.account);
             $scope.loginError = '';
@@ -95,14 +94,13 @@ angular.module('console', [
   .controller('HeaderCtrl', ['$scope', 'accountService', function ($scope, accountService) {
     $scope.account = accountService.getAccount();
   }])
-  .config(['$httpProvider', '$locationProvider', '$stateProvider', '$urlRouterProvider',
-    function ($httpProvider, $locationProvider, $stateProvider, $urlRouterProvider) {
-      $locationProvider.hashPrefix('!');
-      $urlRouterProvider.when('', 'index');
+  .config(['$httpProvider', '$locationProvider', '$stateProvider',
+    function ($httpProvider, $locationProvider, $stateProvider) {
+      $locationProvider.html5Mode(true);
 
       $stateProvider
         .state('index', {
-          url: '/index',
+          url: '/',
           templateUrl: '_index.html'
         })
         .state('login', {
@@ -137,34 +135,33 @@ angular.module('console', [
       }]);
     }
   ])
-  .run(['$rootScope', '$state', '$stateParams', 'Const', 'accountService', function ($rootScope, $state, $stateParams, Const, accountService) {
-    $rootScope.$state = $state;
-    $rootScope.$stateParams = $stateParams;
-    $rootScope.Const = Const;
+  .run(['$rootScope', '$state', '$stateParams', '$location', 'Const', 'accountService', 'authService',
+    function ($rootScope, $state, $stateParams, $location, Const, accountService, authService) {
+      $rootScope.$state = $state;
+      $rootScope.$stateParams = $stateParams;
+      $rootScope.Const = Const;
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-      console.log(toState);
-      console.log(fromState);
+      $rootScope.$on(Const.event.AUTH_LOGIN_REQUEST, function () {
+        $location.url('/login');
+      });
+
       var token = accountService.getToken();
       if (!token) {
-        if (toState.name != 'login') {
-          event.preventDefault();
-          console.log('$state.go("login")');
-          $state.go('login');
-        }
+        console.log('需要登陆');
+        $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
+      } else {
+        authService.query(token).success(function (resp) {
+          if (resp.status.code == 0) {
+            accountService.setAccount(resp.data.account);
+            accountService.setToken(resp.data.token);
+          } else {
+            console.log('通过token: ' + token + ' 查询account失败');
+            $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
+          }
+        })
       }
-    });
-
-    $rootScope.$on(Const.event.AUTH_LOGIN_REQUEST, function () {
-      $state.go('login');
-    });
-
-    //var token = accountService.getToken();
-    //if (!token) {
-    //  console.log('需要登陆');
-    //  $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
-    //}
-  }]);
+    }
+  ]);
 
 angular.element(document).ready(function () {
   angular.bootstrap(document, ['console']);

@@ -1,4 +1,3 @@
-<!-- #set(DocumentBean document) -->
 <!doctype html>
 <html>
 <head>
@@ -6,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="description" content="helloscala.com 更好的Scala中文社区">
   <meta name="keywords" content="index, scala, spray, akka">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <meta name="renderer" content="webkit">
   <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="apple-mobile-web-app-title" content="helloscala">
 
-  <title>${document.title}</title>
+  <title>404 - helloscala.com</title>
 
   <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.min.css">
@@ -21,22 +20,26 @@
   <script src="/assets/lib/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
 
-  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="/assets/img/app-icon72x72@2x.png">
+  <!--<link rel="icon" type="image/png" href="/assets/img/favicon.png">-->
+  <!--<link rel="apple-touch-icon-precomposed" href="/assets/img/app-icon72x72@2x.png">-->
 
+  <script src="/assets/lib/jquery/jquery-1.11.1.min.js"></script>
+  <script src="/assets/lib/jquery/jquery.cookie.js"></script>
+  <!--<script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>-->
+  <!--<script src="/assets/lib/bootstrap/bootstrap-mutilselect/bootstrap-multiselect.js"></script>--></head>
 <body>
 <!--[if lte IE 9]>
 <p class="alert alert-danger text-center">
   你正在使用<strong>过时</strong>的浏览器。请<a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！
 </p>
 <![endif]-->
-<div class="container">
-  $!{document.content}
-</div>
+<h1 class="text-danger">404</h1>
 
-<script src="/assets/lib/jquery/jquery-1.11.1.min.js"></script>
-<script src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
-<script src="/assets/lib/jquery/jquery.cookie.js"></script>
-<script src="/assets/js/style.js"></script>
+<footer>
+  <div class="container-fluid clearfix">
+    <div class="pull-left"></div>
+    <div class="pull-right"></div>
+  </div>
+</footer>
 </body>
 </html>

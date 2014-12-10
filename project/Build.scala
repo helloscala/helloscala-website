@@ -33,6 +33,7 @@ object Build extends Build {
       packExtraClasspath := Map("helloscala" -> Seq("${PROG_HOME}/etc")),
       packResourceDir += (baseDirectory.value / "src/main/webapp" -> "webapp"),
       packResourceDir += (baseDirectory.value / "src/main/etc" -> "etc"),
+      packJvmOpts := Map("helloscala" -> Seq("-Dsite.run_mode=production")),
       unmanagedClasspath in Runtime += baseDirectory.value / "src/main/etc",
       unmanagedClasspath in Test += baseDirectory.value / "src/main/etc",
       libraryDependencies ++= (

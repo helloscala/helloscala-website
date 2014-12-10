@@ -23,3 +23,15 @@ a:active {
 a:hover {
   color: #0000ff;
 }
+
+.doc-header {
+  margin-bottom: 40px;
+}
+
+.doc-content {
+  margin-bottom: 30px;
+}
+
+footer {
+  padding: 30px 0 10px 0;
+}

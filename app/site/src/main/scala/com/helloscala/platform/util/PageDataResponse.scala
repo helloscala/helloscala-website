@@ -14,6 +14,12 @@ case class Params(limit: Int, newer_time: Option[Long], older_time: Option[Long]
     val olderTime = older_time.map(BaseY.formatDateTimeMillis.print)
     s"${getClass.getSimpleName}($limit, $newerTime $newer_time, $olderTime $older_time, $page)"
   }
+
+  def getJNewerTime = newer_time.getOrElse(0L)
+
+  def getJOlderTime = older_time.getOrElse(0L)
+
+  def getJPage = page.getOrElse(0)
 }
 
 /**
