@@ -1,6 +1,6 @@
 ${extends("/_layout.httl")}
 
-<!--#macro(title)-->500&nbsp;-&nbsp;<!--#end-->
+<!--#macro(pageTitle)-->500&nbsp;-&nbsp;<!--#end-->
 
 <!--#macro(main)-->
 <!--#set(Page500Bean page500)-->

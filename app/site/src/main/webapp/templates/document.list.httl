@@ -1,36 +1,9 @@
+${extends("/_layout.httl")}
+
+<!--#macro(pageTitle)-->文章<!--#end-->
+
+<!--#macro(main)-->
 <!-- #set(DocumentPagerBean pager) -->
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="helloscala.com 更好的Scala中文社区">
-  <meta name="keywords" content="index, scala, spray, akka">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="renderer" content="webkit">
-  <meta http-equiv="Cache-Control" content="no-siteapp">
-  <meta name="apple-mobile-web-app-title" content="helloscala">
-
-  <title>helloscala.com</title>
-
-  <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/assets/css/style.css">
-  <!--[if lt IE 9]>
-  <script src="/assets/lib/html5shiv/3.7.2/html5shiv.min.js"></script>
-  <script src="/assets/lib/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
-  <link rel="icon" type="image/png" href="/assets/img/favicon.png">
-  <link rel="apple-touch-icon-precomposed" href="/assets/img/app-icon72x72@2x.png">
-</head>
-<body>
-<!--[if lte IE 9]>
-<p class="alert alert-danger text-center">
-  你正在使用<strong>过时</strong>的浏览器。请<a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！
-</p>
-<![endif]-->
-${include("/templates/navbar.httl")}
 <div class="container">
   <div class="row">
     <div class="col-xs-10">
@@ -47,7 +20,7 @@ ${include("/templates/navbar.httl")}
           <li class="list-group-item">
             <div class="clearfix">
               <a target="_blank" href="${doc.getJDocUri}">${doc.title}</a>
-              <span class="pull-right">${doc.created_at.toDate.format("yyyy-MM-dd")}</span>
+              <span class="pull-right"><small>${doc.created_at.toDate.format("yyyy-MM-dd")}</small></span>
             </div>
           </li>
           <!--#else-->
@@ -67,12 +40,9 @@ ${include("/templates/navbar.httl")}
   </div>
 
 </div>
+<!--#end-->
 
-${include("/templates/footer.httl")}
-
-<script type="text/javascript" src="/assets/lib/jquery/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="/assets/lib/jquery/jquery.cookie.js"></script>
+<!--#macro(scripts)-->
 <script type="text/javascript" src="/assets/js/style.js"></script>
 <script type="text/javascript">
   var ujian_config = {
@@ -85,5 +55,4 @@ ${include("/templates/footer.httl")}
   };
 </script>
 <script type="text/javascript" src="http://v1.ujian.cc/code/ujian.js?uid=1889682"></script>
-</body>
-</html>
+<!--#end-->

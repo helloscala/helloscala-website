@@ -10,7 +10,7 @@
   <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="apple-mobile-web-app-title" content="helloscala">
 
-  <title><!--#macro($title)--><!--#end-->helloscala.com</title>
+  <title><!--#macro($pageTitle)--><!--#end--> - helloscala.com</title>
 
   <link rel="stylesheet" href="/assets/lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="/assets/lib/font-awesome/css/font-awesome.min.css">
@@ -31,23 +31,67 @@
   你正在使用<strong>过时</strong>的浏览器。请<a href="http://browsehappy.com/" target="_blank">升级浏览器</a>以获得更好的体验！
 </p>
 <![endif]-->
+
 <!--#macro($navbar)-->
-${include("/templates/navbar.httl")}
+<nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">点击浏览</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="http://www.helloscala.com">Hello，Scala！</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="http://www.helloscala.com/document">文章</a></li>
+        <li><a href="/about.httl">关于</a></li>
+        <li><a href="https://github.com/helloscala/helloscala" target="_blank">Git @ Github</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a target="_blank" href="/console/register">注册</a></li>
+        <li><a target="_blank" href="/console/login">登陆</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
 <!--#end-->
 
 <div class="main">
-<!--#macro($main)-->
-<!--#end-->
+  <!--#macro($main)-->
+  <!--#end-->
 </div>
 
 <!--#macro($footer)-->
-${include("/templates/footer.httl")}
+<footer>
+  <div class="container">
+    <div class="pull-left">
+      <ul class="list-unstyled">
+        <li><a href="http://www.helloscala.com">Hello，Scala！</a></li>
+        <li><a href="https://github.com/helloscala/helloscala">Git @ Github</a></li>
+      </ul>
+    </div>
+    <div class="pull-right">
+      <div class="weixin">
+        <img src="/assets/img/weixin-mp-8cm.jpg">
+        <span>微信公众号</span>
+      </div>
+    </div>
+  </div>
+</footer>
 <!--#end-->
+
 <script type="text/javascript" src="/assets/lib/jquery/jquery-1.11.1.min.js"></script>
 <script type="text/javascript" src="/assets/lib/bootstrap/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/assets/lib/jquery/jquery.cookie.js"></script>
+
 <!--#macro($scripts)-->
 <script type="text/javascript" src="/assets/js/style.js"></script>
 <!--#end>
+
 </body>
 </html>

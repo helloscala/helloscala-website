@@ -38,6 +38,20 @@ trait SessionRoutes {
         delete {
           onComplete(systemContext.sessionService.removeSession(token))(defaultComplete)
         }
+      } ~
+      path("register") {
+        post {
+          entity(as[ReqAuth]) { reqAuth =>
+            onComplete(systemContext.sessionService.register(reqAuth)) {
+              case Success(value) =>
+                setCookie(HttpCookie("session", content = value.token, path = None, domain = Some("localhost"))) {
+                  complete(value)
+                }
+              case Failure(e) =>
+                defaultFailureComplete(e)
+            }
+          }
+        }
       }
   }
 }

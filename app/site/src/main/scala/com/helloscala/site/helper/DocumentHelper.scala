@@ -55,8 +55,8 @@ class DocumentHelper(conf: Conf, entities: Entities, httlEngine: Engine) {
 
     val user = UserModel(entities).findOneById(doc.author).get
 
-    DocumentBean(doc.id.get.value, doc.title, doc.author, user.nick.getOrElse(user.username), content,
-      doc.description.getOrElse(""), doc.slug.getOrElse(""), doc.allow_anonymous, doc.tags.asJava, doc.attrs.asJava,
-      doc.created_at.toDate)
+    DocumentBean(doc.id.get.value, doc.title, doc.author, user.nick.orElse(user.username).getOrElse(user.id.get.toString),
+      content, doc.description.getOrElse(""), doc.slug.getOrElse(""), doc.allow_anonymous, doc.tags.asJava,
+      doc.attrs.asJava, doc.created_at.toDate)
   }
 }

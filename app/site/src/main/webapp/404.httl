@@ -1,6 +1,6 @@
 ${extends("/_layout.httl")}
 
-<!--#macro(title)-->404&nbsp;-&nbsp;<!--#end-->
+<!--#macro(pageTitle)-->404&nbsp;-&nbsp;<!--#end-->
 
 <!--#macro(main)-->
 <!--#set(Page404Bean page404)-->

@@ -46,6 +46,10 @@ angular.module('console', [
       },
       query: function (token) {
         return $http.get(baseUrl + '/query/' + token);
+      },
+      register: function (params) {
+        var auth = {account: params.account, md5_pass: md5.createHash(params.password)};
+        return $http.post(baseUrl + '/register', auth);
       }
     };
   }])
@@ -91,6 +95,40 @@ angular.module('console', [
       });
     };
   }])
+  .controller('RegisterCtrl', ['$scope', '$timeout', 'accountService', 'authService', function ($scope, $timeout, accountService, authService) {
+    $scope.auth = {};
+    $scope.loginSuccess = '';
+    $scope.loginError = '';
+
+    $scope.onRegister = function () {
+      if ($scope.auth.password != $scope.auth.password2) {
+        $scope.loginError = '两次密码不匹配';
+        return;
+      }
+
+      authService.register($scope.auth)
+        .success(function (resp) {
+          if (resp.status.code == 0) {
+            accountService.setToken(resp.data.token);
+            accountService.setAccount(resp.data.account);
+            $scope.loginError = '';
+            $scope.loginSuccess = '注册成功，2秒后自动跳转';
+            $timeout(function () {
+              $scope.$state.go('index');
+            }, 1800);
+          } else {
+            $scope.loginSuccess = '';
+            $scope.loginError = resp.error.errmsg;
+            $scope.login_form.account.$pristine = true;
+            $scope.login_form.password.$pristine = true;
+            $scope.auth.password = '';
+          }
+        })
+        .error(function (reason) {
+
+        });
+    };
+  }])
   .controller('HeaderCtrl', ['$scope', 'accountService', function ($scope, accountService) {
     $scope.account = accountService.getAccount();
   }])
@@ -102,6 +140,17 @@ angular.module('console', [
         .state('index', {
           url: '/',
           templateUrl: '_index.html'
+        })
+        .state('register', {
+          url: '/register',
+          templateUrl: '_register.html',
+          controller: 'RegisterCtrl',
+          data: {
+            label: '注册'
+          },
+          onEnter: function () {
+
+          }
         })
         .state('login', {
           url: '/login',
@@ -145,11 +194,26 @@ angular.module('console', [
         $location.url('/login');
       });
 
-      var token = accountService.getToken();
-      if (!token) {
-        console.log('需要登陆');
-        $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
-      } else {
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+        console.log(toState);
+        console.log(toParams);
+        console.log(fromState);
+        console.log(fromParams);
+        console.log('\n');
+        var token = accountService.getToken();
+        if (toState.name == 'register') {
+          if (token) {
+            $location.url('/');
+          }
+          return;
+        }
+
+        if (!token) {
+          console.log('需要登陆');
+          $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
+          return;
+        }
+
         authService.query(token).success(function (resp) {
           if (resp.status.code == 0) {
             accountService.setAccount(resp.data.account);
@@ -158,8 +222,9 @@ angular.module('console', [
             console.log('通过token: ' + token + ' 查询account失败');
             $rootScope.$broadcast(Const.event.AUTH_LOGIN_REQUEST);
           }
-        })
-      }
+        });
+      });
+
     }
   ]);
 

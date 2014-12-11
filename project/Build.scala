@@ -79,7 +79,6 @@ object Build extends Build {
           "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots"),
         libraryDependencies ++= (
           compile(_scalaModules) ++
-            //            compile(_slf4j) ++
             compile(_logback) ++
             compile(_scalaLogging) ++
             test(_scalatest)))

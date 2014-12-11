@@ -5,9 +5,9 @@ import java.util.concurrent.TimeUnit
 import akka.actor.{ActorRefFactory, Props}
 import akka.pattern.ask
 import akka.util.Timeout
-import com.helloscala.platform.model.entity.Entities
+import com.helloscala.platform.model.entity.{MUser, Entities}
 import com.helloscala.platform.model.{Account, UserModel}
-import com.helloscala.platform.util.{Conf, StatusMsg, StatusMsgs}
+import com.helloscala.platform.util.{Y, Conf, StatusMsg, StatusMsgs}
 import com.helloscala.site.services.session._
 import com.typesafe.scalalogging.StrictLogging
 import yangbajing.common.MessageException
@@ -22,6 +22,25 @@ class SessionService(conf: Conf, entities: Entities)(implicit actorRefFactory: A
   private val userModel = UserModel(entities)
   private val sessionTimeout = Timeout(conf.server.session_timeout, TimeUnit.MILLISECONDS)
   private val master = actorRefFactory.actorOf(Props(classOf[SessionMaster], sessionTimeout), "session-master")
+
+  def register(reqAuth: ReqAuth)(implicit ec: ExecutionContext, timeout: Timeout): Future[SessionAccount] = {
+    logger.debug(s"register($reqAuth)")
+
+    if (!Y.emailValidate(reqAuth.account)) {
+      Future.failed(MessageException(StatusMsgs.AccountIdInvalid))
+    } else {
+      val u = MUser(None, reqAuth.account, None, None, Nil)
+      try {
+        val user = userModel.insert(u, reqAuth.md5_pass)
+        (master ? CreateSession(user.toAccount, timeout)).mapTo[SessionAccount]
+      } catch {
+        case e: MessageException =>
+          Future.failed(e)
+        case e: Exception =>
+          Future.failed(MessageException(StatusMsgs.sqlError(e.getLocalizedMessage)))
+      }
+    }
+  }
 
   def createSession(reqAuth: ReqAuth)(implicit ec: ExecutionContext, timeout: Timeout): Future[SessionAccount] = {
     logger.debug(s"createSession($reqAuth)")

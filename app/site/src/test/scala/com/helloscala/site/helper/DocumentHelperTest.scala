@@ -20,9 +20,8 @@ class DocumentHelperTest extends FunSpec with MyFunSpec {
 
   describe("DocumentHelper") {
     it("makeDocumentDetail") {
-      documentModel.findAll().foreach { doc =>
-        helper.makeDetail(doc)
-      }
+      val doc = documentModel.pager(1, None, SortAts.Desc).items.head
+      helper.makeDetail(doc, System.out)
     }
 
     it("makeDocumentList") {

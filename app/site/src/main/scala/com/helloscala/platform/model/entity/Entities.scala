@@ -31,8 +31,8 @@ class Entities(conf: SqlDbConf, val driver: MyJdbcDriver.DriverType) {
 
   class TableUser(tag: Tag) extends Table[MUser](tag, "m_user") with MyTable[Long, MUser] {
     val id = column[Long]("id", O.PrimaryKey, O.AutoInc)
-    val username = column[String]("username")
-    val email = column[String]("email", O.Nullable)
+    val email = column[String]("email")
+    val username = column[String]("username", O.Nullable)
     val nick = column[String]("nick", O.Nullable)
     val role_ids = column[List[Int]]("role_ids", O.Default(Nil))
     val sex = column[SexType]("sex", O.Default(SexTypes.Unknown))
@@ -43,7 +43,7 @@ class Entities(conf: SqlDbConf, val driver: MyJdbcDriver.DriverType) {
     val _idxUsername = index(tableName + "_idx_username", username, true)
     val _idxEmail = index(tableName + "_idx_email", email, true)
 
-    def * = (id.?, username, email.?, nick.?, role_ids, sex, portrait.?, attrs, created_at
+    def * = (id.?, email, username.?, nick.?, role_ids, sex, portrait.?, attrs, created_at
       ) <>(MUser.tupled, MUser.unapply)
   }
 
