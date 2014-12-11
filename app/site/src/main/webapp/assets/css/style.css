@@ -3,16 +3,24 @@ body {
   margin: 0;
   font: 14px/1.5 "微软雅黑", "OpenSansRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #333;
-  min-width: 1020px;
-  background: #fff;
+  background: #002B36;
 }
 
 ul, ol {
   list-style: none;
 }
 
+.main {
+  background: #fff;
+  min-height: 480px;
+  padding-top: 20px;
+}
+
+.navbar-static-top {
+  margin: 0;
+}
+
 a {
-  text-decoration: none;
   color: #333;
 }
 
@@ -33,5 +41,30 @@ a:hover {
 }
 
 footer {
-  padding: 30px 0 10px 0;
+  padding: 30px 0 20px 0;
+  background: #002B36;
+  color: #fff;
+}
+
+footer a {
+  color: #fff;
+}
+
+footer a:hover {
+  color: #aaa;
+}
+
+footer a:active {
+  color: #999;
+}
+
+.weixin img {
+  width: 128px;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.weixin span {
+  text-align: center;
+  display: block;
 }

@@ -1,5 +1,6 @@
 package com.helloscala.platform.util
 
+import spray.http.StatusCodes
 import yangbajing.common.TStatusMessage
 
 /**
@@ -23,6 +24,7 @@ object StatusMsgs {
   val SessionTokenNotExists = value(-1006, "Token不存在")
   val SessionTokenInvalid = value(-1007, "Token无效")
   val Rejection = value(-1008, "路由拒绝")
+  val HttlReanderFailure = value(-1009, "Httl模板渲染错误")
 
   val CreateFailure = value(-11401, "创建资源失败")
   val RemoveFailure = value(-11402, "删除资源失败")
@@ -38,15 +40,18 @@ object StatusMsgs {
   val AccountEditFailure = value(-20004, "编辑账号失败")
   val AccountAuthError = value(-20005, "账号密码验证错误")
 
+  def success(msg: String) = StatusMsg(Ok.code, msg)
+
   def queryParamError(msg: String) = StatusMsg(QueryParamsMissing.code, QueryParamsMissing.msg + msg)
 
   def sqlError(msg: String) = StatusMsg(SQLError.code, msg)
 
-  def success(msg: String) = StatusMsg(Ok.code, msg)
+  def httlReaderError(msg: String) = StatusMsg(HttlReanderFailure.code, msg)
 
   def error(msg: String) = StatusMsg(Error.code, msg)
 
   def rejection(msg: String) = StatusMsg(Rejection.code, msg)
+
 
   @inline private def value(code: Int, msg: String) = StatusMsg(if (code < 0) code else -code, msg)
 }

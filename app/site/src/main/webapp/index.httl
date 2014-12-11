@@ -1,0 +1,18 @@
+${extends("/_layout.httl")}
+
+<!--#macro(title)-->首页&nbsp;-&nbsp;<!--#end-->
+
+<!--#macro(main)-->
+<!--#set(IndexBean index)-->
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <ul class="list-unstyled">
+        <li>
+          <a href="/document">文章</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<!--#end-->

@@ -25,6 +25,7 @@ class SystemContext(val conf: Conf, actorSystem: ActorSystem)(implicit actorRefF
   val userService = new UserService(conf, entities)
   val imageService = new ImageService(conf, entities)
   val documentService = new DocumentService(conf, entities, httlEngine)
+  val httlService = new HttlService(conf, entities, httlEngine)
 
   def scheduler() = actorSystem.scheduler
 

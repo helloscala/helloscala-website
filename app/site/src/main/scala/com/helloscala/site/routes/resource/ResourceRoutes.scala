@@ -4,9 +4,9 @@ import java.io.File
 
 import com.helloscala.platform.common.{SortAts, SuperId}
 import com.helloscala.platform.util.Tools
+import com.helloscala.site.beans.IndexBean
 import com.helloscala.site.routes.helper.MyRouteHelper
 import org.joda.time.DateTime
-import spray.http.MediaTypes
 
 trait ResourceRoutes {
   this: MyRouteHelper =>
@@ -16,14 +16,20 @@ trait ResourceRoutes {
 
   val resourceRoutes =
     pathEndOrSingleSlash {
-      getFromFile {
-        new File(systemContext.conf.server.localWebapp + "/index.html")
+      get {
+        complete {
+          val bean = IndexBean("Hello，Scala！")
+          systemContext.httlService.index(bean)
+        }
       }
     } ~
       path(Segment) { segment =>
-        getFromFile {
-          val p = if (Tools.indexHtml.contains(segment)) "index.html" else segment
-          new File(systemContext.conf.server.localWebapp + "/" + p)
+        get {
+          if (Tools.indexHtml.contains(segment)) {
+            val bean = IndexBean("Hello，Scala！")
+            complete(systemContext.httlService.index(bean))
+          } else
+            reject
         }
       } ~
       staticPaths("assets") ~

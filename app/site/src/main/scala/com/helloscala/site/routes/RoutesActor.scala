@@ -1,10 +1,13 @@
 package com.helloscala.site.routes
 
+import java.io.File
+
 import akka.actor.Props
 import com.helloscala.platform.util.{Conf, HttpResponses, StatusMsgs}
+import com.helloscala.site.beans.Page404Bean
 import com.helloscala.site.services.SystemContext
 import com.typesafe.scalalogging.StrictLogging
-import spray.http.{StatusCodes, HttpRequest, Timedout}
+import spray.http._
 import spray.routing._
 import yangbajing.common.MessageException
 
@@ -21,6 +24,10 @@ class RoutesActor(val conf: Conf, val systemContext: SystemContext) extends Http
   }
 
   protected implicit val __rejectHandler = RejectionHandler {
+    case Nil =>
+      logger.debug("NotFound")
+      complete(systemContext.httlService.page404(Page404Bean("页面不存在！！！")))
+
     case bean@(MissingQueryParamRejection(_) :: _) =>
       val params = bean.asInstanceOf[List[MissingQueryParamRejection]]
       complete(StatusMsgs.queryParamError(params.map(_.parameterName).mkString(", ")))
@@ -35,10 +42,6 @@ class RoutesActor(val conf: Conf, val systemContext: SystemContext) extends Http
     //    case MalformedHeaderRejection(headerName, errorMsg, cause) :: _ =>
     //      complete(StatusMsgs.SessionTokenInvalid)
 
-    case Nil =>
-      logger.debug("Nil")
-      complete(StatusCodes.NotFound, StatusMsgs.DataNotFound)
-
     case list =>
       val msg = list.toString()
       logger.debug(msg)
@@ -48,6 +51,7 @@ class RoutesActor(val conf: Conf, val systemContext: SystemContext) extends Http
 
   protected implicit val __exceptionHandler = ExceptionHandler {
     case MessageException(msg) => complete(msg)
+    case e: Exception => complete(StatusCodes.InternalServerError, e.getLocalizedMessage)
   }
 
 }

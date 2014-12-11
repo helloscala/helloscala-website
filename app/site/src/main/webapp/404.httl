@@ -1,0 +1,15 @@
+${extends("/_layout.httl")}
+
+<!--#macro(title)-->404&nbsp;-&nbsp;<!--#end-->
+
+<!--#macro(main)-->
+<!--#set(Page404Bean page404)-->
+<div class="container">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h1 class="text-danger">${page404.msg}</h1>
+      <a href="/">点此返回首页</a>
+    </div>
+  </div>
+</div>
+<!--#end-->

@@ -7,9 +7,8 @@ import com.helloscala.platform.util.StatusMsgs
 import com.helloscala.site.helper.MyJson4sSupport
 import com.typesafe.scalalogging.StrictLogging
 import spray.http.StatusCodes
-import spray.httpx.marshalling.Marshaller
 import spray.routing.{HttpService, Route}
-import yangbajing.common.{MessageException, TDataMessage, TStatusMessage, TRespMessage}
+import yangbajing.common.{MessageException, TDataMessage, TRespMessage, TStatusMessage}
 
 import scala.util.{Failure, Success, Try}
 

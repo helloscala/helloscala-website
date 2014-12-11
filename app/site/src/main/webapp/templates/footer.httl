@@ -1,10 +1,16 @@
 <footer>
   <div class="container">
-    <div class="pull-right">
+    <div class="pull-left">
       <ul class="list-unstyled">
         <li><a href="http://www.helloscala.com">Hello，Scala！</a></li>
         <li><a href="https://github.com/helloscala/helloscala">Git @ Github</a></li>
       </ul>
+    </div>
+    <div class="pull-right">
+      <div class="weixin">
+        <img src="/assets/img/weixin-mp-8cm.jpg">
+        <span>微信公众号</span>
+      </div>
     </div>
   </div>
 </footer>
