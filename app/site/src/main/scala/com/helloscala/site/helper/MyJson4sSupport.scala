@@ -50,29 +50,25 @@ trait Json4sMarshaller {
   implicit val __errorMessageMarshaller =
     Marshaller.delegate[TStatusMessage, String](ContentTypes.`application/json`) { msg =>
       val jv = Y.json4sDecompose(msg)
-      Json4sMarshaller.toString(JObject("status" -> jv, "data" -> JObject(Nil)))
+      Json4sMarshaller.toString(JObject("status" -> jv))
     }
 
   implicit val __dataMessageMarshaller =
     Marshaller.delegate[TDataMessage, String](ContentTypes.`application/json`) { msg =>
       val jv = Y.json4sDecompose(msg)
-      Json4sMarshaller.toString(jv)
+      Json4sMarshaller.toString(JObject("status" -> JObject("code" -> JInt(0), "msg" -> JString("")), "data" -> jv))
     }
 
   implicit val __respMessageMarshaller =
     Marshaller.delegate[TRespMessage, String](ContentTypes.`application/json`) { v =>
-      val jvalue = Y.json4sDecompose(v)
-      Json4sMarshaller.toString(jvalue)
+      val jv = Y.json4sDecompose(v)
+      Json4sMarshaller.toString(jv)
     }
+
 }
 
 object Json4sMarshaller extends Json4sMarshaller with LazyLogging {
-  def toString(jvalue: JValue): String = {
-    val jv = jvalue \ "status" \ "code" match {
-      case JInt(_) => jvalue
-      case _ => JObject("status" -> JObject("code" -> JInt(0), "msg" -> JString("")), "data" -> jvalue)
-    }
-
+  private def toString(jv: JValue): String = {
     val result = Y.json4sToString(jv)
     logger.debug(result)
     result
